@@ -75,7 +75,7 @@ export default function Home() {
     <div className="pt-5">
         <Address />
       <div>
-        <h1 className="mt-16 text-4xl font-bold">Remmended</h1>
+        <h1 className="mt-16 text-4xl font-bold">Remmended 1.7</h1>
       </div>
       <div className="w-full flex justify-center px-0 mt-10">
         {/* <CarouselHome /> */}
