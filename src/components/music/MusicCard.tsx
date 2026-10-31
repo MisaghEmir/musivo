@@ -61,9 +61,9 @@ const MusicCard = ({ music }: { music: Music }) => {
               </div>
 
               <div className="p-1 pt-2">
-                <h3 className="font-bold text-[15px]">{music.name}</h3>
+                <h3 className="font-bold text-[15px] text-left">{music.name}</h3>
 
-                <p className="text-sm text-white/70">{music.singer}</p>
+                <p className="text-sm text-white/70 text-left">{music.singer}</p>
               </div>
             </div>
           </TooltipTrigger>
@@ -75,7 +75,7 @@ const MusicCard = ({ music }: { music: Music }) => {
       </ContextMenuTrigger>
 
       <ContextMenuContent className="w-56 bg-[#191919] border-white/10 text-white">
-        <ContextMenuLabel className="text-white/50 text-xs truncate">
+        <ContextMenuLabel className="text-white/50 text-xs truncate text-left bg-amber-600">
           {music.name}
         </ContextMenuLabel>
 
