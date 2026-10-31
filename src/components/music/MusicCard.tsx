@@ -1,19 +1,13 @@
+
 "use client";
 
 import { useDispatch } from "react-redux";
-import { Music } from "@/config/data";
-
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import type { Music } from "@/config/data";
 
 import {
   ContextMenu,
   ContextMenuContent,
   ContextMenuItem,
-  ContextMenuLabel,
   ContextMenuSeparator,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
@@ -29,7 +23,14 @@ const MusicCard = ({ music }: { music: Music }) => {
 
     dispatch({
       type: "listadd",
-      value: Music,
+      value: music,
+    });
+  };
+
+  const addToQueue = () => {
+    dispatch({
+      type: "listadd",
+      value: music,
     });
   };
 
@@ -44,40 +45,37 @@ const MusicCard = ({ music }: { music: Music }) => {
   return (
     <ContextMenu>
       <ContextMenuTrigger>
-        <Tooltip>
-          <TooltipTrigger>
-            <div
-              onClick={playMusic}
-              className="cursor-pointer hover:scale-105 transition-all delay-75"
-            >
-              <div className="rounded-xl image-shadow overflow-hidden relative">
-                <img
-                  src={music.image}
-                  className="w-full aspect-square object-cover"
-                  alt={music.name}
-                />
+        <div
+          onClick={playMusic}
+          title="Right-click for music options"
+          className="cursor-pointer hover:scale-105 transition-all delay-75"
+        >
+          <div className="rounded-xl image-shadow overflow-hidden relative">
+            <img
+              src={music.image}
+              className="w-full aspect-square object-cover"
+              alt={music.name}
+            />
 
-                <div className="absolute top-0 left-0 w-full h-full bg-black/10" />
-              </div>
+            <div className="absolute top-0 left-0 w-full h-full bg-black/10" />
+          </div>
 
-              <div className="p-1 pt-2">
-                <h3 className="font-bold text-[15px] text-left">{music.name}</h3>
+          <div className="p-1 pt-2">
+            <h3 className="font-bold text-[15px] text-left">
+              {music.name}
+            </h3>
 
-                <p className="text-sm text-white/70 text-left">{music.singer}</p>
-              </div>
-            </div>
-          </TooltipTrigger>
-
-          <TooltipContent>
-            <small>Right-click for music options.</small>
-          </TooltipContent>
-        </Tooltip>
+            <p className="text-sm text-white/70 text-left">
+              {music.singer}
+            </p>
+          </div>
+        </div>
       </ContextMenuTrigger>
 
       <ContextMenuContent className="w-56 bg-[#191919] border-white/10 text-white">
-        <ContextMenuLabel className="text-white/50 text-xs truncate text-left bg-amber-600">
+        <div className="px-2 py-1.5 text-xs text-white/50 truncate text-left">
           {music.name}
-        </ContextMenuLabel>
+        </div>
 
         <ContextMenuSeparator className="bg-white/10" />
 
@@ -90,12 +88,7 @@ const MusicCard = ({ music }: { music: Music }) => {
         </ContextMenuItem>
 
         <ContextMenuItem
-          onSelect={() => {
-            dispatch({
-              type: "listadd",
-              value: Music,
-            });
-          }}
+          onSelect={addToQueue}
           className="cursor-pointer focus:bg-[#E60A54] focus:text-white"
         >
           <span className="mr-2">♫</span>
@@ -129,4 +122,4 @@ const MusicCard = ({ music }: { music: Music }) => {
   );
 };
 
-export default MusicCard
+export default MusicCard;

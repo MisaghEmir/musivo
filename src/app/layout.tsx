@@ -1,12 +1,10 @@
-
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-
 import Header from "@/components/layouts/Header";
 import Sidebar from "@/components/layouts/Sidebar";
-import Providers from "./providers";
-import { Analytics } from "@vercel/analytics/react";
+import ReduxProvider from "./providers";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -20,7 +18,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "MUSIVO",
-  description: "Discover and listen to your favorite music.",
+  description: "Music streaming platform",
 };
 
 export default function RootLayout({
@@ -36,30 +34,25 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col text-white">
-        <Providers>
+        <ReduxProvider>
           <div className="grid grid-cols-12">
-            <div className="md:col-span-3 hidden md:block sticky top-0 h-screen bg-black/15">
+            {/* Sidebar */}
+            <div className="col-span-12 md:col-span-3 md:sticky md:top-0 md:h-screen bg-black/15">
               <Sidebar />
             </div>
 
-            <div className="md:col-span-9 col-span-12 md:px-5 bg-black/15">
+            {/* Main Content */}
+            <div className="col-span-12 md:col-span-9 min-w-0 bg-black/15">
               <div className="sticky top-0 h-14 z-40">
                 <Header />
               </div>
 
-              <div className="pb-20 px-5">
-                {nav}
-                {children}
+              <div className="px-5 pb-[150px] md:pb-20">
+                <TooltipProvider>{nav}</TooltipProvider>
               </div>
             </div>
           </div>
-
-          <div className="fixed bottom-0 w-full md:hidden">
-            {/* <MusicPlayerSmall /> */}
-          </div>
-        </Providers>
-
-        <Analytics />
+        </ReduxProvider>
       </body>
     </html>
   );
