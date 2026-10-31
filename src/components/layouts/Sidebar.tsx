@@ -1,55 +1,58 @@
 import React from "react";
-import { BiHome, BiMusic } from "react-icons/bi";
-// import MusicPlayer from "../music/MusicPlayer";
+import { BiMusic } from "react-icons/bi";
+import MusicPlayer from "../music/MusicPlayer";
 import { LuLibrary } from "react-icons/lu";
 import { MdExplore } from "react-icons/md";
 import { CgPlayList } from "react-icons/cg";
 import Link from "next/link";
 
 const Sidebar = () => {
+  const links = [
+    { href: "/exploer", label: "Explore", icon: <MdExplore size={21} /> },
+    { href: "/library", label: "Library", icon: <LuLibrary size={21} /> },
+    { href: "/music", label: "Musics", icon: <BiMusic size={21} /> },
+    { href: "/playlist", label: "Playlists", icon: <CgPlayList size={21} /> },
+  ];
+
   return (
-    <div className="p-3 py-4 h-screen overflow-hidden">
-      <div>
-        <h1 className="text-2xl font-bold pl-3">CAFEMUSICS</h1>
-      </div>
-      <div className="flex flex-col justify-between h-[90vh] ">
-        <div className="flex flex-col gap-1 py-20 pr-4 font-bold scroll-auto max-h-[65vh] none-scroll overflow-auto">
-          <Link href={"/exploer"}>
-            <button className="w-full text-left p-2 px-4 rounded-md hover:bg-zinc-800 cursor-pointer flex items-center gap-2 transition-all delay-75">
-              <i>
-                <MdExplore />
-              </i>
-              Exploer
-            </button>
-          </Link>
-          <Link href={"/library"}>
-            <button className="w-full text-left p-2 px-4 rounded-md hover:bg-zinc-800 cursor-pointer flex items-center gap-2 transition-all delay-75">
-              <i>
-                <LuLibrary />
-              </i>
-              Library
-            </button>
-          </Link>
-           <Link href={"/music"}>
-          <button className="w-full text-left p-2 px-4 rounded-md hover:bg-zinc-800 cursor-pointer flex items-center gap-2 transition-all delay-75">
-            <i>
-              <BiMusic />
-            </i>
-            Musics
-          </button>
-           </Link>
-          <button className="w-full text-left p-2 px-4 rounded-md hover:bg-zinc-800 cursor-pointer flex items-center gap-2 transition-all delay-75">
-            <i>
-              <CgPlayList />
-            </i>
-            Playlists
-          </button>
+    <>
+      <aside className="h-0 md:h-screen md:p-3 md:py-4 md:overflow-hidden md:flex md:flex-col">
+        {/* Desktop Navigation */}
+        <div className="hidden md:flex flex-col flex-1 min-h-0">
+          <h1 className="text-2xl font-bold pl-3">MUSIVO</h1>
+
+          <nav className="flex flex-col gap-1 py-20 pr-4 font-bold max-h-[65vh] overflow-auto none-scroll">
+            {links.map((item) => (
+              <Link key={item.href} href={item.href}>
+                <div className="w-full text-left p-2 px-4 rounded-md hover:bg-zinc-800 cursor-pointer flex items-center gap-2 transition-all">
+                  {item.icon}
+                  {item.label}
+                </div>
+              </Link>
+            ))}
+          </nav>
         </div>
-        <div className="flex-1 items-center flex flex-col justify-end">
-          {/* <MusicPlayer /> */}
+
+        {/* تنها یک نمونه از پلیر */}
+        <MusicPlayer />
+      </aside>
+
+      {/* Mobile Bottom Navigation */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-[110] h-[60px] bg-[#191919] border-t border-white/10">
+        <div className="flex justify-around items-center h-full">
+          {links.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className="flex flex-col items-center gap-1 text-white/70 hover:text-white"
+            >
+              {item.icon}
+              <span className="text-[10px]">{item.label}</span>
+            </Link>
+          ))}
         </div>
-      </div>
-    </div>
+      </nav>
+    </>
   );
 };
 
