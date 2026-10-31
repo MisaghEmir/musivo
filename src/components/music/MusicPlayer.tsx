@@ -1,14 +1,9 @@
-
 "use client";
 
 import { Music } from "@/config/data";
 import React, { useEffect, useRef, useState } from "react";
 import { BsPause, BsPlay } from "react-icons/bs";
-import {
-  GiNextButton,
-  GiPreviousButton,
-  GiSoundOn,
-} from "react-icons/gi";
+import { GiNextButton, GiPreviousButton, GiSoundOn } from "react-icons/gi";
 import { LiaListAlt } from "react-icons/lia";
 import { useDispatch, useSelector } from "react-redux";
 // import { DrawerDemo } from "./MusicList";
@@ -36,16 +31,11 @@ const MusicPlayer = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const dispatch = useDispatch();
 
-  const music = useSelector(
-    (state: RootState) => state.musicReducer.state
-  );
+  const music = useSelector((state: RootState) => state.musicReducer.state);
 
-  const musicQueue = useSelector(
-    (state: RootState) => state.listReducer.state
-  );
+  const musicQueue = useSelector((state: RootState) => state.listReducer.state);
 
-  const activeQueue =
-    musicQueue && musicQueue.length > 0 ? musicQueue : Music;
+  const activeQueue = musicQueue && musicQueue.length > 0 ? musicQueue : Music;
 
   // Change music
   useEffect(() => {
@@ -90,9 +80,7 @@ const MusicPlayer = () => {
   };
 
   // Update progress
-  const updateTime = (
-    e: React.SyntheticEvent<HTMLAudioElement>
-  ) => {
+  const updateTime = (e: React.SyntheticEvent<HTMLAudioElement>) => {
     const audio = e.currentTarget;
 
     if (!audio.duration || !isFinite(audio.duration)) return;
@@ -119,9 +107,7 @@ const MusicPlayer = () => {
   };
 
   // Change volume
-  const volumeHandle = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const volumeHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = Number(e.target.value);
 
     setVolume(value);
@@ -153,14 +139,10 @@ const MusicPlayer = () => {
   const nextHandle = () => {
     if (!music || !activeQueue.length) return;
 
-    const index = activeQueue.findIndex(
-      (item) => item._id === music._id
-    );
+    const index = activeQueue.findIndex((item) => item._id === music._id);
 
     const nextIndex =
-      index === -1 || index >= activeQueue.length - 1
-        ? 0
-        : index + 1;
+      index === -1 || index >= activeQueue.length - 1 ? 0 : index + 1;
 
     const nextMusic = activeQueue[nextIndex];
 
@@ -185,14 +167,9 @@ const MusicPlayer = () => {
   const prevHandle = () => {
     if (!music || !activeQueue.length) return;
 
-    const index = activeQueue.findIndex(
-      (item) => item._id === music._id
-    );
+    const index = activeQueue.findIndex((item) => item._id === music._id);
 
-    const prevIndex =
-      index <= 0
-        ? activeQueue.length - 1
-        : index - 1;
+    const prevIndex = index <= 0 ? activeQueue.length - 1 : index - 1;
 
     const prevMusic = activeQueue[prevIndex];
 
@@ -243,10 +220,7 @@ const MusicPlayer = () => {
 
         <div className="max-w-full px-2 text-center">
           <b className="text-sm font-bold truncate block">
-            {music.name} -{" "}
-            <span className="text-white/60">
-              {music.singer}
-            </span>
+            {music.name} - <span className="text-white/60">{music.singer}</span>
           </b>
         </div>
 
@@ -257,11 +231,7 @@ const MusicPlayer = () => {
           </button>
 
           <button onClick={handlePlay} className="cursor-pointer">
-            {Play ? (
-              <BsPause size={20} />
-            ) : (
-              <BsPlay size={20} />
-            )}
+            {Play ? <BsPause size={20} /> : <BsPlay size={20} />}
           </button>
 
           <button onClick={nextHandle} className="cursor-pointer">
@@ -351,17 +321,13 @@ const MusicPlayer = () => {
             />
 
             <div className="flex flex-col min-w-0">
-              <b className="text-sm truncate">
-                {music.name}
-              </b>
+              <b className="text-sm truncate">{music.name}</b>
 
               <span className="text-xs text-white/50 truncate">
                 {music.singer}
               </span>
 
-              <span className="text-[10px] text-white/40">
-                {MusicTime}
-              </span>
+              <span className="text-[10px] text-white/40">{MusicTime}</span>
             </div>
           </div>
 
@@ -380,11 +346,7 @@ const MusicPlayer = () => {
               className="cursor-pointer"
               aria-label={Play ? "Pause" : "Play"}
             >
-              {Play ? (
-                <BsPause size={25} />
-              ) : (
-                <BsPlay size={25} />
-              )}
+              {Play ? <BsPause size={25} /> : <BsPlay size={25} />}
             </button>
 
             <button
@@ -414,7 +376,7 @@ const MusicPlayer = () => {
         </div>
 
         {/* Mobile Volume */}
-        <div className="flex items-center gap-2 mt-2 px-1">
+        {/* <div className="flex items-center gap-2 mt-2 px-1">
           <GiSoundOn size={16} />
 
           <input
@@ -436,7 +398,7 @@ const MusicPlayer = () => {
           <span className="text-[10px] text-white/50 w-8 text-right">
             {Math.round((Muted ? 0 : Volume) * 100)}%
           </span>
-        </div>
+        </div> */}
       </div>
 
       {/* Single Audio Element */}
