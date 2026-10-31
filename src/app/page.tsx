@@ -72,7 +72,7 @@ export default function Home() {
   return (
     <div className="pt-5">
       <div>
-        <h1 className="mt-16 text-4xl font-bold">Remmended</h1>
+        <h1 className="mt-16 text-4xl font-bold text-b">Remmended</h1>
       </div>
       <div className="w-full flex justify-center px-0 mt-10">
         {/* <CarouselHome /> */}
