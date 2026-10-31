@@ -5,6 +5,8 @@
 // import PlaylistCard from "@/components/playlist/PlaylistCard";
 // import { Music, PlaylistData } from "@/config/data";
 
+import Address from "@/components/layouts/Address";
+
 const fristMusic = {
   _id: "1",
   name: "Someone Like You",
@@ -71,6 +73,7 @@ const sixMusic = {
 export default function Home() {
   return (
     <div className="pt-5">
+        <Address />
       <div>
         <h1 className="mt-16 text-4xl font-bold">Remmended</h1>
       </div>
