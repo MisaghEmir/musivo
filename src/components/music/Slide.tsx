@@ -8,7 +8,7 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 
-export function CarouselSize() {
+export function CarouselSize({music}:{music: any}) {
   return (
     <Carousel
       opts={{
