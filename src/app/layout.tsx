@@ -7,6 +7,7 @@ import Sidebar from "@/components/layouts/Sidebar";
 // import { TooltipProvider } from "@/components/ui/tooltip";
 // import MusicPlayer from "@/components/music/MusicPlayer";
 // import MusicPlayerSmall from "@/components/music/MusicPlayerSmall";
+import { Analytics } from "@vercel/analytics/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -37,26 +38,27 @@ export default function RootLayout({
     >
       <body className="min-h-full flex flex-col text-white">
         {/* <ReduxProvider> */}
-          <div className="grid grid-cols-12">
-            <div className="md:col-span-3 hidden md:block sticky top-0 h-screen bg-black/15">
-              <Sidebar />
+        <div className="grid grid-cols-12">
+          <div className="md:col-span-3 hidden md:block sticky top-0 h-screen bg-black/15">
+            <Sidebar />
+          </div>
+          <div className=" md:col-span-9 col-span-12 md:px-5 md:px-0 bg-black/15">
+            <div className=" sticky top-0 h-14 z-40">
+              <Header />
             </div>
-            <div className=" md:col-span-9 col-span-12 md:px-5 md:px-0 bg-black/15">
-              <div className=" sticky top-0 h-14 z-40">
-                <Header />
-              </div>
-              <div className="pb-20 px-5">
-                {/* <TooltipProvider> */}
-                  {nav}
+            <div className="pb-20 px-5">
+              {/* <TooltipProvider> */}
+              {nav}
 
-                {/* </TooltipProvider> */}
-              </div>
+              {/* </TooltipProvider> */}
             </div>
           </div>
-          <div className=" fixed bottom-0 w-full md:hidden">
-            {/* <MusicPlayerSmall /> */}
-          </div>
+        </div>
+        <div className=" fixed bottom-0 w-full md:hidden">
+          {/* <MusicPlayerSmall /> */}
+        </div>
         {/* </ReduxProvider> */}
+        <Analytics />
       </body>
     </html>
   );
