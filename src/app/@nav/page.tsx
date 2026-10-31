@@ -84,7 +84,7 @@ export default function Home() {
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#E60A54] via-[#a20b49] to-[#240b24] p-8 md:p-14">
           <div className="relative z-10 max-w-xl">
             <span className="text-sm font-medium text-white/70">
-              WELCOME TO MELORA
+              WELCOME TO MELORA 2.2
             </span>
 
             <h1 className="mt-4 text-4xl md:text-6xl font-bold text-white">
