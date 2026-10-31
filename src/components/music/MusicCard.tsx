@@ -128,3 +128,5 @@ const MusicCard = ({ music }: { music: Music }) => {
     </ContextMenu>
   );
 };
+
+export default MusicCard
