@@ -208,7 +208,7 @@ export const Music = [
     singer: "Lana Del Rey",
     album: "Born to Die",
     image: "/image/Adele-music.png",
-    audio: "/music/Lana-Del-Rey-Summertime-Sadness.mp3",
+    audio: "/music/Summertime_sadness_by_Lana_Del_Rey.mp3",
     view: 6200,
   },
   {
@@ -217,7 +217,7 @@ export const Music = [
     singer: "Lana Del Rey",
     album: "The Great Gatsby",
     image: "/image/adele.jpg",
-    audio: "/music/Lana-Del-Rey-Young-and-Beautiful.mp3",
+    audio: "/music/Lana-Del-Rey-Young_and_Beautiful.mp3",
     view: 5800,
   },
 
