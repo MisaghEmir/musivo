@@ -6,7 +6,7 @@ import { BsPause, BsPlay } from "react-icons/bs";
 import { GiNextButton, GiPreviousButton, GiSoundOn } from "react-icons/gi";
 import { LiaListAlt } from "react-icons/lia";
 import { useDispatch, useSelector } from "react-redux";
-// import { DrawerDemo } from "./MusicList";
+import { DrawerDemo } from "./MusicList";
 
 type MusicItem = (typeof Music)[number];
 
@@ -414,11 +414,11 @@ const MusicPlayer = () => {
         preload="auto"
       />
 
-      {/* <DrawerDemo
+      <DrawerDemo
         open={open}
         setOpen={setOpen}
         music={music}
-      /> */}
+      />
     </>
   );
 };
