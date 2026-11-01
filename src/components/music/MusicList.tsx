@@ -146,7 +146,7 @@ export function DrawerDemo({
           </div>
 
           <DrawerFooter className="px-3 sm:px-6 pt-2 pb-4">
-            <DrawerClose asChild>
+            <DrawerClose >
               <Button
                 variant="outline"
                 className="w-full sm:w-auto sm:self-end bg-white/5 border-white/10 text-white hover:bg-white/10 hover:text-white"
