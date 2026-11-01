@@ -5,6 +5,7 @@ import Header from "@/components/layouts/Header";
 import Sidebar from "@/components/layouts/Sidebar";
 import ReduxProvider from "./providers";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { Analytics } from "@vercel/analytics/react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -53,6 +54,7 @@ export default function RootLayout({
             </div>
           </div>
         </ReduxProvider>
+          <Analytics />
       </body>
     </html>
   );
