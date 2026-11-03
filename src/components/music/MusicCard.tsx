@@ -2,7 +2,7 @@
 "use client";
 
 import { useDispatch } from "react-redux";
-import type { Music } from "@/config/data";
+import { Music } from "@/config/data";
 
 import {
   ContextMenu,
@@ -23,7 +23,7 @@ const MusicCard = ({ music }: { music: Music }) => {
 
     dispatch({
       type: "listadd",
-      value: music,
+      value: Music,
     });
   };
 
