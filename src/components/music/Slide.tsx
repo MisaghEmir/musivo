@@ -15,9 +15,9 @@ export function CarouselSize({ music }: { music: Music[] }) {
       opts={{
         align: "center",
       }}
-      className="w-full gap-8 "
+      className="w-full gap-8 z-30"
     >
-      <CarouselContent className="gap-4 py-5">
+      <CarouselContent className="gap-4 py-5 z-30">
         {music.map((item, index) => (
           <CarouselItem key={index} className="basis-1/2 lg:basis-1/5 gap-8">
             <MusicCard music={item} />

@@ -1,12 +1,19 @@
+
 "use client";
 
 import { Music } from "@/config/data";
 import React, { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { BsPause, BsPlay } from "react-icons/bs";
-import { GiNextButton, GiPreviousButton, GiSoundOn } from "react-icons/gi";
+import {
+  GiNextButton,
+  GiPreviousButton,
+  GiSoundOn,
+} from "react-icons/gi";
 import { LiaListAlt } from "react-icons/lia";
 import { useDispatch, useSelector } from "react-redux";
 import { DrawerDemo } from "./MusicList";
+import { X } from "lucide-react";
 
 type MusicItem = (typeof Music)[number];
 
@@ -22,6 +29,8 @@ type RootState = {
 const MusicPlayer = () => {
   const [Play, setPlay] = useState(false);
   const [open, setOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
+
   const [PlayerFill, setPlayerFill] = useState(0);
   const [MusicTime, setMusicTime] = useState("0:00");
 
@@ -31,11 +40,18 @@ const MusicPlayer = () => {
   const audioRef = useRef<HTMLAudioElement>(null);
   const dispatch = useDispatch();
 
-  const music = useSelector((state: RootState) => state.musicReducer.state);
+  const music = useSelector(
+    (state: RootState) => state.musicReducer.state
+  );
 
-  const musicQueue = useSelector((state: RootState) => state.listReducer.state);
+  const musicQueue = useSelector(
+    (state: RootState) => state.listReducer.state
+  );
 
-  const activeQueue = musicQueue && musicQueue.length > 0 ? musicQueue : Music;
+  const activeQueue =
+    Array.isArray(musicQueue) && musicQueue.length > 0
+      ? musicQueue
+      : Music;
 
   // Change music
   useEffect(() => {
@@ -139,10 +155,14 @@ const MusicPlayer = () => {
   const nextHandle = () => {
     if (!music || !activeQueue.length) return;
 
-    const index = activeQueue.findIndex((item) => item._id === music._id);
+    const index = activeQueue.findIndex(
+      (item) => item._id === music._id
+    );
 
     const nextIndex =
-      index === -1 || index >= activeQueue.length - 1 ? 0 : index + 1;
+      index === -1 || index >= activeQueue.length - 1
+        ? 0
+        : index + 1;
 
     const nextMusic = activeQueue[nextIndex];
 
@@ -167,9 +187,12 @@ const MusicPlayer = () => {
   const prevHandle = () => {
     if (!music || !activeQueue.length) return;
 
-    const index = activeQueue.findIndex((item) => item._id === music._id);
+    const index = activeQueue.findIndex(
+      (item) => item._id === music._id
+    );
 
-    const prevIndex = index <= 0 ? activeQueue.length - 1 : index - 1;
+    const prevIndex =
+      index <= 0 ? activeQueue.length - 1 : index - 1;
 
     const prevMusic = activeQueue[prevIndex];
 
@@ -206,7 +229,10 @@ const MusicPlayer = () => {
     <>
       {/* Desktop Player */}
       <div className="hidden md:flex flex-col items-center gap-2 w-full">
-        <div className="relative rounded-xl overflow-hidden">
+        <div
+          className="relative rounded-xl overflow-hidden cursor-pointer"
+          onClick={() => setExpanded(true)}
+        >
           <img
             src={music.image}
             className="w-[7.5rem] aspect-square rounded-xl object-cover image-shadow"
@@ -218,9 +244,13 @@ const MusicPlayer = () => {
           </div>
         </div>
 
-        <div className="max-w-full px-2 text-center">
+        <div
+          className="max-w-full px-2 text-center cursor-pointer"
+          onClick={() => setExpanded(true)}
+        >
           <b className="text-sm font-bold truncate block">
-            {music.name} - <span className="text-white/60">{music.singer}</span>
+            {music.name} -{" "}
+            <span className="text-white/60">{music.singer}</span>
           </b>
         </div>
 
@@ -313,7 +343,10 @@ const MusicPlayer = () => {
 
         <div className="flex items-center justify-between gap-3">
           {/* Music Info */}
-          <div className="flex items-center gap-2 min-w-0 flex-1">
+          <div
+            className="flex items-center gap-2 min-w-0 flex-1 cursor-pointer"
+            onClick={() => setExpanded(true)}
+          >
             <img
               src={music.image}
               alt={music.name}
@@ -327,7 +360,9 @@ const MusicPlayer = () => {
                 {music.singer}
               </span>
 
-              <span className="text-[10px] text-white/40">{MusicTime}</span>
+              <span className="text-[10px] text-white/40">
+                {MusicTime}
+              </span>
             </div>
           </div>
 
@@ -413,6 +448,188 @@ const MusicPlayer = () => {
         onEnded={nextHandle}
         preload="auto"
       />
+
+      {/* Fullscreen Player - React Portal */}
+      {expanded &&
+        typeof document !== "undefined" &&
+        createPortal(
+          <div className="fixed inset-0 z-[2147483647] bg-[#101010] text-white overflow-y-auto">
+            <div className="min-h-[100dvh] flex flex-col items-center px-5 py-6 sm:px-10">
+
+              {/* Header */}
+              <div className="w-full max-w-5xl flex items-center justify-between">
+                <button
+                  onClick={() => setExpanded(false)}
+                  className="w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition"
+                  aria-label="Close player"
+                >
+                  <X size={22} />
+                </button>
+
+                <div className="text-center">
+                  <p className="text-[10px] tracking-[3px] text-white/40">
+                    NOW PLAYING
+                  </p>
+                  <p className="text-sm font-bold tracking-widest">
+                    MUSIVO
+                  </p>
+                </div>
+
+                <button
+                  onClick={() => setOpen(true)}
+                  className="w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition"
+                  aria-label="Open queue"
+                >
+                  <LiaListAlt size={23} />
+                </button>
+              </div>
+
+              {/* Player Content */}
+              <div className="flex-1 w-full max-w-5xl flex flex-col lg:flex-row items-center justify-center gap-10 lg:gap-16 py-10">
+
+                {/* Cover */}
+                <div className="w-full max-w-[min(75vw,420px)] lg:max-w-[440px] aspect-square rounded-2xl overflow-hidden image-shadow">
+                  <img
+                    src={music.image}
+                    alt={music.name}
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+
+                {/* Controls Area */}
+                <div className="w-full max-w-[440px]">
+                  <p className="text-xs text-white/40 tracking-[3px] mb-3">
+                    PLAYING FROM MUSIVO
+                  </p>
+
+                  <h2 className="text-3xl sm:text-4xl font-bold">
+                    {music.name}
+                  </h2>
+
+                  <p className="text-lg text-white/60 mt-3">
+                    {music.singer}
+                  </p>
+
+                  {music.album && (
+                    <p className="text-sm text-white/40 mt-1">
+                      {music.album}
+                    </p>
+                  )}
+
+                  {/* Progress */}
+                  <div className="w-full mt-10">
+                    <input
+                      onChange={FillHandle}
+                      className="progressbar w-full cursor-pointer"
+                      type="range"
+                      min="0"
+                      max="100"
+                      step={0.1}
+                      value={PlayerFill}
+                      style={{
+                        background: `linear-gradient(90deg, #ffffff ${PlayerFill}%, #a1a1a1 ${PlayerFill}%)`,
+                      }}
+                    />
+
+                    <div className="flex justify-between text-xs text-white/50 mt-2">
+                      <span>{MusicTime}</span>
+                      <span>
+                        {audioRef.current?.duration &&
+                        isFinite(audioRef.current.duration)
+                          ? change_time(audioRef.current.duration)
+                          : "0:00"}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Main Controls */}
+                  <div className="flex items-center justify-between mt-8">
+                    <button
+                      onClick={toggleMute}
+                      className="cursor-pointer text-white/70 hover:text-white"
+                      aria-label="Toggle volume"
+                    >
+                      <GiSoundOn size={25} />
+                    </button>
+
+                    <button
+                      onClick={prevHandle}
+                      className="cursor-pointer"
+                      aria-label="Previous music"
+                    >
+                      <GiPreviousButton size={30} />
+                    </button>
+
+                    <button
+                      onClick={handlePlay}
+                      className="w-16 h-16 rounded-full bg-[#E60A54] hover:bg-[#c90849] text-white flex items-center justify-center transition"
+                      aria-label={Play ? "Pause" : "Play"}
+                    >
+                      {Play ? (
+                        <BsPause size={32} />
+                      ) : (
+                        <BsPlay size={32} />
+                      )}
+                    </button>
+
+                    <button
+                      onClick={nextHandle}
+                      className="cursor-pointer"
+                      aria-label="Next music"
+                    >
+                      <GiNextButton size={30} />
+                    </button>
+
+                    <button
+                      onClick={() => setOpen(true)}
+                      className="cursor-pointer text-white/70 hover:text-white"
+                      aria-label="Open queue"
+                    >
+                      <LiaListAlt size={25} />
+                    </button>
+                  </div>
+
+                  {/* Volume */}
+                  <div className="flex items-center gap-3 mt-9">
+                    <GiSoundOn size={20} />
+
+                    <input
+                      type="range"
+                      min="0"
+                      max="1"
+                      step="0.01"
+                      value={Muted ? 0 : Volume}
+                      onChange={volumeHandle}
+                      className="w-full cursor-pointer accent-[#E60A54]"
+                      style={{
+                        background: `linear-gradient(90deg, #E60A54 ${
+                          (Muted ? 0 : Volume) * 100
+                        }%, #555 ${(Muted ? 0 : Volume) * 100}%)`,
+                      }}
+                    />
+                  </div>
+
+                  {/* Queue */}
+                  <button
+                    onClick={() => setOpen(true)}
+                    className="w-full mt-8 py-3 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 flex items-center justify-center gap-2 transition"
+                  >
+                    <LiaListAlt size={20} />
+                    <span className="text-sm">Playing Queue</span>
+                    <span className="text-xs text-white/50">
+                      ({Array.isArray(musicQueue) ? musicQueue.length : 0})
+                    </span>
+                  </button>
+                </div>
+              </div>
+
+              <p className="text-[10px] tracking-[3px] text-white/30">
+                MUSIVO · FEEL EVERY BEAT
+              </p>
+            </div>
+          </div>,
+          document.body
+        )}
 
       <DrawerDemo
         open={open}

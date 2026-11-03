@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -56,7 +55,7 @@ export function DrawerDemo({
 
   return (
     <Drawer open={open} onOpenChange={setOpen}>
-      <DrawerContent className="bg-[#191919] border-white/10 text-white max-h-[90vh] outline-none">
+      <DrawerContent className="!z-[2147483647] bg-[#191919] border-white/10 text-white max-h-[90vh] outline-none">
         <div className="mx-auto w-full max-w-5xl px-3 sm:px-6 md:px-10">
           <DrawerHeader className="p-4 sm:p-6">
             <div className="flex items-center justify-between gap-4">
@@ -146,7 +145,7 @@ export function DrawerDemo({
           </div>
 
           <DrawerFooter className="px-3 sm:px-6 pt-2 pb-4">
-            <DrawerClose >
+            <DrawerClose>
               <Button
                 variant="outline"
                 className="w-full sm:w-auto sm:self-end bg-white/5 border-white/10 text-white hover:bg-white/10 hover:text-white"
