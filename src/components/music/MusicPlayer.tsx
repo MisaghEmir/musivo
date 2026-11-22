@@ -96,16 +96,27 @@ const MusicPlayer = () => {
   };
 
   // Update progress
-  const updateTime = (e: React.SyntheticEvent<HTMLAudioElement>) => {
-    const audio = e.currentTarget;
+ const updateTime = (e: React.SyntheticEvent<HTMLAudioElement>) => {
+  const audio = e.currentTarget;
 
-    if (!audio.duration || !isFinite(audio.duration)) return;
+  if (!audio.duration || !isFinite(audio.duration)) return;
 
-    const progress = (audio.currentTime / audio.duration) * 100;
+  const progress = (audio.currentTime / audio.duration) * 100;
 
-    setPlayerFill(progress);
-    setMusicTime(change_time(audio.currentTime));
-  };
+  setPlayerFill(progress);
+  setMusicTime(change_time(audio.currentTime));
+
+  // Update Windows media position
+  if ("mediaSession" in navigator) {
+    try {
+      navigator.mediaSession.setPositionState({
+        duration: audio.duration,
+        playbackRate: audio.playbackRate,
+        position: audio.currentTime,
+      });
+    } catch {}
+  }
+};
 
   // Seek audio
   const FillHandle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -212,6 +223,126 @@ const MusicPlayer = () => {
       value: prevMusic,
     });
   };
+
+  // Windows Media Controls + Keyboard Media Keys
+useEffect(() => {
+  if (!music || typeof navigator === "undefined" || !("mediaSession" in navigator)) {
+    return;
+  }
+
+  const audio = audioRef.current;
+  if (!audio) return;
+
+  const mediaSession = navigator.mediaSession;
+
+  // Music metadata
+  try {
+    mediaSession.metadata = new MediaMetadata({
+      title: music.name,
+      artist: music.singer,
+      album: music.album || "MUSIVO",
+      artwork: [
+        {
+          src: music.image.startsWith("http")
+            ? music.image
+            : `${window.location.origin}${music.image}`,
+          sizes: "512x512",
+          type: "image/jpeg",
+        },
+      ],
+    });
+  } catch (error) {
+    console.error("Media metadata error:", error);
+  }
+
+  // Play
+  try {
+    mediaSession.setActionHandler("play", () => {
+      audio.play().catch(console.error);
+    });
+  } catch {}
+
+  // Pause
+  try {
+    mediaSession.setActionHandler("pause", () => {
+      audio.pause();
+    });
+  } catch {}
+
+  // Next
+  try {
+    mediaSession.setActionHandler("nexttrack", () => {
+      nextHandle();
+    });
+  } catch {}
+
+  // Previous
+  try {
+    mediaSession.setActionHandler("previoustrack", () => {
+      prevHandle();
+    });
+  } catch {}
+
+  // Seek forward
+  try {
+    mediaSession.setActionHandler("seekforward", (details) => {
+      const offset = details.seekOffset ?? 10;
+
+      if (audio.duration && isFinite(audio.duration)) {
+        audio.currentTime = Math.min(
+          audio.currentTime + offset,
+          audio.duration
+        );
+      }
+    });
+  } catch {}
+
+  // Seek backward
+  try {
+    mediaSession.setActionHandler("seekbackward", (details) => {
+      const offset = details.seekOffset ?? 10;
+
+      audio.currentTime = Math.max(
+        audio.currentTime - offset,
+        0
+      );
+    });
+  } catch {}
+
+  // Seek to position
+  try {
+    mediaSession.setActionHandler("seekto", (details) => {
+      if (
+        details.seekTime !== undefined &&
+        audio.duration &&
+        isFinite(audio.duration)
+      ) {
+        audio.currentTime = Math.min(
+          Math.max(details.seekTime, 0),
+          audio.duration
+        );
+      }
+    });
+  } catch {}
+
+  return () => {
+    const actions = [
+      "play",
+      "pause",
+      "nexttrack",
+      "previoustrack",
+      "seekforward",
+      "seekbackward",
+      "seekto",
+    ] as const;
+
+    actions.forEach((action) => {
+      try {
+        mediaSession.setActionHandler(action, null);
+      } catch {}
+    });
+  };
+}, [music, musicQueue]);
 
   // Apply volume
   useEffect(() => {
