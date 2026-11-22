@@ -432,7 +432,7 @@ export const PopularArtists = [
 ]
 
 // Featured Playlists
-export const FeaturedPlaylists = PlaylistData.slice(0, 6)
+export const FeaturedPlaylists = PlaylistData.slice(4, 10)
 
 // New Albums
 export const NewAlbums = [

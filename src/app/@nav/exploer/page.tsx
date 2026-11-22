@@ -7,7 +7,7 @@ import Link from "next/link";
 import Address from "@/components/layouts/Address";
 import Homefilter from "@/components/music/Homefilter";
 import MusicCard from "@/components/music/MusicCard";
-// import PlaylistCard from "@/components/playlist/PlaylistCard";
+import PlaylistCard from "@/components/playlist/PlaylistCard";
 import { CarouselSize } from "@/components/music/Slide";
 
 import {
@@ -304,9 +304,9 @@ export default function Home() {
         </div>
 
         <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-          {/* {FeaturedPlaylists.map((item) => (
+          {FeaturedPlaylists.map((item) => (
             <PlaylistCard key={item._id} playlist={item} />
-          ))} */}
+          ))}
         </div>
       </section>
 
