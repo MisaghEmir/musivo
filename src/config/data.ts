@@ -260,6 +260,42 @@ export const Music = [
     audio: "/music/Coldplay-A-Sky-Full-of-Stars.mp3",
     view: 6900,
   },
+  {
+    _id: "27",
+    name: "Cennetim Olsun (Akustik)",
+    singer: "Tuğba Yurt",
+    album: "Ghost Stories",
+    image: "/image/tuba1.jpg",
+    audio: "/music/Tugba-Yurt-Cennetim-Olsun-Akustik-33.mp3",
+    view: 6900,
+  },
+  {
+    _id: "28",
+    name: "Herkes Yaralı (Akustik Canlı Performans)",
+    singer: "Tuğba Yurt",
+    album: "Ghost Stories",
+    image: "/image/tuba4.jpg",
+    audio: "/music/Tugba-Yurt-Herkes-Yarali-Akustik-34.mp3",
+    view: 6900,
+  },
+  {
+    _id: "29",
+    name: "Sığınak (Akustik Canlı Performans)",
+    singer: "Tuğba Yurt",
+    album: "Ghost Stories",
+    image: "/image/tuba3.jpg",
+    audio: "/music/Tugba-Yurt-Siginak-Akustik-46.mp3",
+    view: 6900,
+  },
+  {
+    _id: "30",
+    name: "Tuğba Yurt - Zalim (Akustik)",
+    singer: "Tuğba Yurt",
+    album: "Ghost Stories",
+    image: "/image/tuba2.jpg",
+    audio: "/music/zalim.mp3",
+    view: 6900,
+  },
 ];
 
 export const PlaylistData = [
@@ -324,11 +360,17 @@ export const PlaylistData = [
     image: "/image/31JSk-BC-3L._AC_UF894,1000_QL80_.jpg",
     musics: ["25", "26"],
   },
+  {
+    _id: "10",
+    name: "Tuğba Yurt – Akustik & Live",
+    image: "/image/Tugba_Yurt_ Akustik.png",
+    musics: ["27", "28","29","30"],
+  },
 ];
 
 // Recommended Music
 export const RecommendedMusic = Music.filter((music) =>
-  ["1", "4", "9", "15", "21"].includes(music._id)
+  ["1", "4", "9", "15", "21","27","30"].includes(music._id)
 )
 
 // Top Music
