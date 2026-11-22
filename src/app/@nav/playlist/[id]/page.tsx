@@ -1,56 +1,85 @@
 "use client";
-import MusicRow from "@/components/music/MusicRow";
-import { Music } from "@/config/data";
-import { useDispatch } from "react-redux";
 
-function Page() {
-    const dispatch = useDispatch();
+import MusicRow from "@/components/music/MusicRow";
+import { Music, PlaylistData } from "@/config/data";
+import { useDispatch } from "react-redux";
+import { useParams } from "next/navigation";
+
+export default function Page() {
+  const dispatch = useDispatch();
+  const params = useParams();
+
+  const playlist = PlaylistData.find(
+    (item) => item._id === params.id
+  );
+
+  if (!playlist) {
+    return <div className="mt-10">Playlist not found!</div>;
+  }
+
+  const playlistMusics = playlist.musics
+    .map((musicId) => Music.find((music) => music._id === musicId))
+    .filter((music) => music !== undefined);
+
   return (
     <div>
-      <div className="flex relative   justify-between items-center mt-10">
-        <div className="top-0 left-0 absolute w-full h-full blur-3xl z-0 from-amber-800 to-white bg-linear-to-r backdrop:blur-2xl"></div>
-        <div className="z-10">
-          <img src="/image/1jijc25a.jpeg" className="w-44 rounded-xl" alt="" />
+      {/* Playlist Header */}
+      <div className="flex relative justify-between items-center mt-10">
+        <div className="absolute top-0 left-0 w-full h-full blur-3xl z-0 bg-linear-to-r from-amber-800 to-white opacity-30"></div>
+
+        <div className="z-10 flex items-center gap-5">
+          <img
+            src={playlist.image}
+            className="w-44 aspect-square object-cover rounded-xl"
+            alt={playlist.name}
+          />
+
+          <div>
+            <small>Playlist</small>
+            <h1 className="text-3xl font-bold mt-2">
+              {playlist.name}
+            </h1>
+            <p className="text-gray-400 mt-2">
+              {playlistMusics.length} Songs
+            </p>
+          </div>
         </div>
       </div>
+
+      {/* Playlist Songs */}
       <div className="mt-20">
-        <div className="grid grid-cols-12 justify-between w-full">
+        <div className="grid grid-cols-12 items-center w-full text-gray-400">
           <div>
             <small>Image</small>
           </div>
-          <div className=" col-span-6">
-            <small>name</small>
+
+          <div className="col-span-6">
+            <small>Name</small>
           </div>
-          <div className="col-span-2">
-            <small>album</small>
-          </div>
-          <div className=" col-span-2">
+
+       
+
+           <div className="col-span-4 text-right">
             <small>Duration</small>
           </div>
-          <div>
-            <small>Edit</small>
-          </div>
         </div>
+
         <div className="mt-5 flex flex-col gap-5">
-          {Music.map((item, index) => (
+          {playlistMusics.map((item, index) => (
             <div
-              key={index}
+              key={item._id}
               onClick={() => {
+                dispatch({
+                  type: "listadd",
+                  value: playlistMusics,
+                });
+
                 dispatch({
                   type: "add",
                   value: item,
                 });
-                dispatch({
-                  type: "listadd",
-                  value: Music,
-                });
               }}
             >
-              <MusicRow music={item} />
-            </div>
-          ))}
-          {Music.map((item, index) => (
-            <div key={index}>
               <MusicRow music={item} />
             </div>
           ))}
@@ -59,5 +88,3 @@ function Page() {
     </div>
   );
 }
-
-export default Page;

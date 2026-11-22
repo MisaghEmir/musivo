@@ -11,11 +11,8 @@ const MusicRow = ({ music }: { music: Music }) => {
         <h3 className="font-bold text-[15px]">{music.name}</h3>
         <p className="text-sm text-white/70">{music.singer}</p>
       </div>
-      <div className="col-span-2">Masi</div>
-      <div className="col-span-2">3:54</div>
-      <div>
-        <BiEdit />
-      </div>
+      <div className="col-span-4 text-right">3:54</div>
+     
     </div>
   );
 };
